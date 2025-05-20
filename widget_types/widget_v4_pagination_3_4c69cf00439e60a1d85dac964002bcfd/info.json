@@ -1,0 +1,61 @@
+{
+  "type": "SimpleWidgetType",
+  "handle": "widget_v4_pagination_3_4c69cf00439e60a1d85dac964002bcfd",
+  "page_kinds": [
+    "collection",
+    "blog",
+    "search"
+  ],
+  "widget_list_kinds": [
+    "content"
+  ],
+  "generation": 4,
+  "name": {
+    "ru": "Пагинация",
+    "en": null,
+    "ee": null,
+    "lv": null,
+    "lt": null,
+    "ua": null,
+    "fr": null,
+    "de": null,
+    "it": null,
+    "cn": null,
+    "jp": null,
+    "pl": null,
+    "az": null,
+    "he": null,
+    "bg": null,
+    "el": null,
+    "cz": null,
+    "pt": null,
+    "fi": null,
+    "es": "Paginación - 3"
+  },
+  "description": {
+    "ru": "Пагинация",
+    "en": null,
+    "ee": null,
+    "lv": null,
+    "lt": null,
+    "ua": null,
+    "fr": null,
+    "de": null,
+    "it": null,
+    "cn": null,
+    "jp": null,
+    "pl": null,
+    "az": null,
+    "he": null,
+    "bg": null,
+    "el": null,
+    "cz": null,
+    "pt": null,
+    "fi": null,
+    "es": "Paginación"
+  },
+  "widget_category_handle": "pagination",
+  "libraries": [
+    "my-layout"
+  ]
+}

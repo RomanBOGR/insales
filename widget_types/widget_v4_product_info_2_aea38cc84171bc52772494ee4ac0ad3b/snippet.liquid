@@ -1,0 +1,289 @@
+{% assign fields = false %}
+{% assign fields_first_index_noempty = null %}
+{% for field in product.fields %}
+  {% if field.value != ''  %}
+    {% assign fields = true %}
+  {% unless fields_first_index_noempty %}
+    {% assign fields_first_index_noempty = forloop.index %}
+  {% endunless %}
+  {% endif %}
+{% endfor %}
+
+{% capture description_tab_head %}
+  <div class="tabs__head-item is-active" data-tabs-item="tab-description">
+    <span class="tabs__head-icon icon-content"></span>
+    <span class="tabs__head-label">{{ messages.description }}</span>
+    <span class="tabs__head-arrow icon-angle-down"></span>
+  </div>
+{% endcapture %}
+
+{% capture properties_tab_head %}
+  <div class="tabs__head-item {% unless product.description %}is-active{% endunless %}" data-tabs-item="tab-characteristics">
+    <span class="tabs__head-icon icon-sliders"></span>
+    <span class="tabs__head-label">{{ messages.label_properties }}</span>
+    <span class="tabs__head-arrow icon-angle-down"></span>
+  </div>
+{% endcapture %}
+
+{% capture reviews_tab_head %}
+  <div class="tabs__head-item {% unless product.description %}{% unless product.properties.size > 0 %}is-active{% endunless %}{% endunless %}" data-tabs-item="tab-reviews">
+    <span class="tabs__head-icon icon-comments"></span>
+    <span class="tabs__head-label">
+        {{messages.reviews}}
+        {% if product.reviews_count > 0 %} ({{ product.reviews_count }}){% endif %}
+    </span>
+    <span class="tabs__head-arrow icon-angle-down"></span>
+  </div>
+{% endcapture %}
+
+{% if product.description or product.properties.size > 0 or account.reviews_enabled? or fields %}
+  <div class="tabs">
+    <div class="tabs__head">
+      {% if product.description %}
+        {{ description_tab_head }}
+      {% endif %}
+      {% if product.properties.size > 0 %}
+        {{ properties_tab_head }}
+      {% endif %}
+      {% if account.reviews_enabled? %}
+        {{ reviews_tab_head }}
+      {% endif %}
+      {% for field in product.fields %}
+        {% if field.value != ''  %}
+          <div class="tabs__head-item {% if forloop.index == fields_first_index_noempty %}{% unless product.description %}{% unless product.properties.size > 0 %}{% unless account.reviews_enabled? %}is-active{% endunless %}{% endunless %}{% endunless %}{% endif %}" data-tabs-item="tab-{{ field.handle }}">
+            <span class="tabs__head-icon icon-folder-open"></span>
+            <span class="tabs__head-label">{{ field.title }}</span>
+            <span class="tabs__head-arrow icon-angle-down"></span>
+          </div>
+        {% endif %}
+      {% endfor %}
+    </div>
+
+    <div class="tabs__content">
+      {% if product.description %}
+        {{ description_tab_head }}
+        <div id="tab-description" class="tabs__item is-active">
+          <div class="product-description static-text">
+            {{ product.description | editable | replace: '<table', '<div class="table-wrapper"><table' | replace: '</table>', '</table></div>' }}
+          </div>
+        </div>
+      {% endif %}
+
+      {% if product.properties.size > 0 %}
+        {{ properties_tab_head }}
+        <div id="tab-characteristics" class="tabs__item {% unless product.description %}is-active{% endunless %}">
+          <div class="product-properties block-with-more-items">
+            <div class="properties-items">
+              {% assign iteration = 0 %}
+              {% for property in product.properties %}
+                {% unless property.handle == "label" %}
+              	{% assign iteration = iteration | plus: 1 %}
+                  <div class="property {% if iteration > 10 %}hidden-item{% endif %}">
+                    <div class="property__name">{{ property.name }}</div>
+                    <div class="property__delimiter"></div>
+                    <div class="property__content">
+                      {% for characteristic in property.characteristics %}
+                        {{ characteristic.title }}{% unless forloop.last %},{% endunless %}
+                      {% endfor %}
+                    </div>
+                  </div>
+                {% endunless %}
+              {% endfor %}
+            </div>
+            {% if iteration > 10 %}
+            <div class="more-items">
+              <span class="button-link more-items__btn js-more-items">{{ messages.more_prop }}</span>
+            </div>
+            {% endif %}
+          </div>
+        </div>
+      {% endif %}
+
+      {% if account.reviews_enabled? %}
+        {{ reviews_tab_head }}
+        <div id="tab-reviews" class="tabs__item {% unless product.description %}{% unless product.properties.size > 0 %}is-active{% endunless %}{% endunless %}">
+          {% assign reviews_limit = 100 %}
+          <div class="product-reviews">
+            <div class="reviews block-with-more-items">
+              <div class="grid-list masonry-reviews-list">
+                {% for review in product.reviews limit: reviews_limit %}
+                <div class="masonry-reviews-item {% if forloop.index > 4 %}hidden-item{% endif %}">
+                  <div class="masonry-reviews-item__content">
+                    <div class="review-header">
+                      <div class="author">{{ review.author }}</div>
+                      {% if review.rating %}
+                        <div class="star-rating-wrapper">
+                          <span class="icon icon-star"></span><span class="title">{{ review.rating }}</span>
+                        </div>
+                      {% endif %}
+                    </div>
+                    <div class="review-content">{{ review.content }}</div>
+                    {% if review.image.medium_url.size > 0 %}
+                      <div class="reviews__photo">
+                        <a class="img-ratio img-ratio_cover" data-fslightbox="review-photos-lightbox-{{ forloop.index }}" data-type="image" href="{{ review.image.original_url }}">
+                          <div class="img-ratio__inner">
+                            {{ review.image.medium_url | webp_picture_tag: 100 }}
+                          </div>
+                        </a>
+                      </div>
+                    {% endif %}
+                    <div class="review-footer">
+                      
+                      {% if review.replied? %}
+                        <span class="button-link js-show-manager">{{ messages.review_show_comment }}</span>
+                        <span class="button-link js-hide-manager hidden">{{ messages.review_hide_comment }}</span>
+                      {% endif %}
+                    </div>
+                    {% if review.replied? %}
+                      <div class="comments-item hidden">
+                        {% if widget_settings.manager-photo != null%}
+                          <div class="comment-photo">
+                            <div class="img-ratio img-ratio_cover">
+                              <div class="img-ratio__inner">
+                                <img src="{{ widget_settings.manager-photo }}">
+                              </div>
+                            </div>
+                          </div>
+                        {% endif %}
+                        <div class="comment-name">{{ messages.review_manager_name }}</div>
+                        <div class="comment-body">
+                          {{ review.manager_reply }}
+                        </div>
+                      </div>
+                    {% endif %}
+                  </div>
+                </div>
+                {% endfor %}
+
+                {% if product.reviews_count < 1 %}
+                  <div class="notice-empty-reviews">{{ messages.review_none }}</div>
+                {% endif %}
+              </div>
+
+              {% if product.reviews_count > 4 %}
+                <div class="more-items">
+                  <span class="button-link more-items__btn js-more-items">{{ messages.review_show_more }}</span>
+                </div>
+              {% endif %}
+            </div>
+
+            <div class="show-review-form-controls">
+              <button class="button more-items__btn show-form-btn js-show-form {% if review.errors.size > 0 %}hidden{% endif %}">
+                {{ messages.review_write_new }}
+              </button>
+            </div>
+
+            <div class="review-form-wrapper">
+            {% form review %}
+              {% if form.posted_successfully? %}
+                {% if account.reviews_moderated? %}
+                  <div class="notice-success">
+                    {{ messages.review_is_added_moderated }}
+                  </div>
+                {% else %}
+                  <div class="notice-success">{{ messages.review_is_added }}.</div>
+                {% endif %}
+              {% endif %}
+              <div id="review_form" class="reviews-wrapper {% unless review.errors.size > 0 %}hidden{% endunless%}">
+                <div class="review-form-header">
+                  <div class="review-form-title">{{ messages.review_write_new_title }}</div>
+                  <span class="button-link hide-form-btn js-hide-form">{{ messages.cancel }}</span>
+                </div>
+                <div class="reviews-form">
+                  {% if review.errors.size > 0 %}
+                    <div class="form-message form-message_error">
+                      <p>{{ messages.review_write_incorrect }}</p>
+                      <ul>
+                        {% if review.errors contains 'author' %}
+                        <li>{{ messages.name }}</li>
+                        {% endif %}
+                        {% if review.errors contains 'email' %}
+                        <li>{{ messages.field_email }}</li>
+                        {% endif %}
+                        {% if review.errors contains 'content' %}
+                        <li>{{ messages.review }}</li>
+                        {% endif %}
+                        {% if review.errors contains 'captcha_solution' %}
+                        <li>{{ messages.field_captcha }}</li>
+                        {% endif %}
+                      </ul>
+                    </div>
+                  {% endif %}
+                  <div class="add-review-form js-review-wrapper">
+                    <div class="form-row star-rating-row">
+                      <div class="star-rating-wrapper">
+                        <div class="star-rating">
+                          {% assign r = 5 %}
+                          {% for i in (1..5) %}
+                          <input name="review[rating]" id="star{{ r }}-{{ product.id }}" type="radio" name="reviewStars" class="star-radio" value="{{ r }}"/>
+                          <label title="{{ r }}" for="star{{ r }}-{{ product.id }}" class="star-label icon icon-star"></label>
+                          {% assign r = r | minus: 1 %}
+                          {% endfor %}
+                        </div>
+                      </div>
+                    </div>
+                    <div class="grid-list grid-list_wide">
+                      <div class="form-row form-author is-required {% if review.errors contains 'author' %}is-error{% endif %}">
+                        <label class="form-label">{{ messages.name }} <span class="text-error">*</span></label>
+                        <input name="review[author]" placeholder="{{ messages.name }}" value="{{ review.author }}" type="text" class="form-control form-control_size-l"/>
+                      </div>
+                      <div class="form-row form-email is-required {% if review.errors contains 'email' %}is-error{% endif %}">
+                        <label class="form-label">{{ messages.field_email }} <span class="text-error">*</span></label>
+                        <input name="review[email]" placeholder="{{ messages.field_email }}" value="{{ review.email }}" type="text" class="form-control form-control_size-l"/>
+                      </div>
+                    </div>
+                    <div class="form-row form-comment is-required {% if review.errors contains 'content' %}is-error{% endif %}">
+                      <label class="form-label">{{ messages.review }} <span class="text-error">*</span></label>
+                      <textarea name="review[content]" placeholder="{{ messages.review }}" class="form-control is-textarea">{{ review.content }}</textarea>
+                    </div>
+                    {% if account.reviews_images_enabled? %}
+                    <div class="form-row form-file is-required {% if review.errors contains 'image.image' %} input--error{% endif %}">
+                      <label class="form-label icon icon-camera">
+                        <span class="load-review-image-name">{{ messages.add_photo }}</span>
+                        <input type="file" class="js-load-review-image hidden"  name="review[image_attributes][image]" />
+                      </label>
+                    </div>
+                    {% endif %}
+                    {% if review.captcha_enabled? %}
+                    <div data-comments-form-field-area class="form-row form-captcha {% if review.errors contains 'captcha_solution' %}is-error{% endif %}">
+                      <div data-comments-form-recaptcha='{"isRequired": true, "errorMessage": "{{ messages.recaptcha_error | escape }}"}' id="captcha_challenge" class="captcha-recaptcha"></div>
+                      <div data-comments-form-field-error class="form__field-error"></div>
+                    </div>
+                    {% endif %}
+                    <div class="form-controls">
+                      <button type="submit" class="button button_size-l">{{ messages.give_feedback }}</button>
+                    </div>
+                  </div>
+                  {% if account.reviews_moderated? %}
+                  <div class="moderation">
+                    <p>{{ messages.reviews_are_moderated }}</p>
+                  </div>
+                  {% endif %}
+                </div>
+              </div>
+            {% endform %}
+            </div>
+          </div>
+        </div>
+      {% endif %}
+
+      {% for field in product.fields %}
+        {% if field.value != ''  %}
+          <div class="tabs__head-item {% if forloop.index == fields_first_index_noempty %}{% unless product.description %}{% unless product.properties.size > 0 %}{% unless account.reviews_enabled? %}is-active{% endunless %}{% endunless %}{% endunless %}{% endif %}" data-tabs-item="tab-{{ field.handle }}">
+            <span class="tabs__head-icon icon-folder-open"></span>
+            <span class="tabs__head-label">{{ field.title }}</span>
+            <span class="tabs__head-arrow icon-angle-down"></span>
+          </div>
+          <div id="tab-{{ field.handle}}" class="tabs__item {% if forloop.index == fields_first_index_noempty %}{% unless product.description %}{% unless product.properties.size > 0 %}{% unless account.reviews_enabled? %}is-active{% endunless %}{% endunless %}{% endunless %}{% endif %}">
+            <div class="product-description static-text product-field">
+              {{ field.value | replace: '<table', '<div class="table-wrapper"><table' | replace: '</table>', '</table></div>' }}
+            </div>
+          </div>
+        {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+{% endif %}
+
+{% assign fields = null %}
+{% assign fields_first_index_noempty = null %}

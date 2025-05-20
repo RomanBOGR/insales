@@ -1,0 +1,19 @@
+{
+  "ru": {
+    "sidebar_color": "Цвет фона выезжающего сайдбара",
+    "rounding_corners_image_cat": "Скругление углов изображения категории"
+  },
+  "ua": {
+    "sidebar_color": "Колір фону сайдбара, що виїжджає",
+    "rounding_corners_image_cat": "Заокруглення кутів зображення категорії"
+  },
+  "en": {
+    "sidebar_color": "Sliding sidebar background color",
+    "rounding_corners_image_cat": "Rounding category image corners"
+  },
+  "es": {
+    "sidebar_color": "Color de fondo de la barra lateral deslizante",
+    "rounding_corners_image_cat": "Redondeo de esquinas de imagen de categoría"
+
+  }
+}

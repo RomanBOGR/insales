@@ -1,0 +1,65 @@
+{% include "system_collection_filter_check", display_filter: false %}
+{% unless search.performed? or filter_selected or seo_filter_selected %}
+  {% if collection.subcollections.size > 0 %}
+    {% if paginate.current_page == 1 or paginate.current_page == null %}
+      <div class="subcollection-list js-special-subcollection">
+        <div
+          class="splide js-special-subcollection-slider"
+          data-slide-min-width="{{ widget_settings.slide-width }}"
+          data-slide-gap="{{ widget_settings.slide-gap }}">
+          <div class="splide__track">
+            <div class="splide__list">
+              {% for collection in collection.subcollections %}
+                <div class="splide__slide">
+                  <a href="{{ collection.url }}" class="subcollection-list__item">
+                    <div class="img-ratio img-fit subcollection-list__item-photo">
+                      <div class="img-ratio__inner">
+                        {% if collection.image.original_url contains 'no_image' %}
+                          {% if collection.products_count > 0 %}
+                            {% assign collection_first_product = collection.products | first %}
+                            {% if collection_first_product.images.size > 0 %}
+                              {% assign collection_photo = collection_first_product.first_image %}
+                            {% else %}
+                              {% assign collection_photo = collection.image %}
+                            {% endif %}
+                          {% else %}
+                            {% assign collection_photo = collection.image %}
+                          {% endif %}
+                        {% else %}
+                          {% assign collection_photo = collection.image %}
+                        {% endif %}
+                        {% if collection_photo.original_url contains 'no_image' %}
+                          <picture>
+                            <img
+                              data-src="{{ collection_photo.large_url }}"
+                              class="lazyload"
+                              alt="{{ collection.title | escape }}">
+                          </picture>
+                        {% else %}
+                          {% assign img_width = widget_settings.slide-width | to_integer | times: 2 | default: 700 %}
+                          <picture>
+                            <source
+                              data-srcset="{{ collection_photo | image_url: img_width, format: 'webp' }}"
+                              type="image/webp"
+                              class="lazyload">
+                            <img
+                              data-src="{{ collection_photo | image_url: img_width }}"
+                              class="lazyload"
+                              alt="{{ collection.title | escape }}">
+                          </picture>
+                        {% endif %}
+                      </div>
+                    </div>
+                    <div class="subcollection-list__item-title">
+                      {{ collection.title }}
+                    </div>
+                  </a>
+                </div>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+      </div>
+    {% endif %}
+  {% endif %}
+{% endunless %}

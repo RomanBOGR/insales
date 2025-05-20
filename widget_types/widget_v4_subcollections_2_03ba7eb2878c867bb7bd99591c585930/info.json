@@ -1,0 +1,65 @@
+{
+  "type": "SimpleWidgetType",
+  "handle": "widget_v4_subcollections_2_03ba7eb2878c867bb7bd99591c585930",
+  "page_kinds": [
+    "collection"
+  ],
+  "widget_list_kinds": [
+    "before_content",
+    "content",
+    "after_content"
+  ],
+  "generation": 4,
+  "name": {
+    "ru": "Подкатегории",
+    "en": "Subcategories - 2",
+    "ee": null,
+    "lv": null,
+    "lt": null,
+    "ua": "Підкатегорії - 2",
+    "fr": null,
+    "de": null,
+    "it": null,
+    "cn": null,
+    "jp": null,
+    "pl": null,
+    "az": null,
+    "he": null,
+    "bg": null,
+    "el": null,
+    "cz": null,
+    "pt": null,
+    "fi": null,
+    "es": "Subcategorías - 2"
+  },
+  "description": {
+    "ru": "Подкатегории с слайдером",
+    "en": "Subcategories with slider",
+    "ee": null,
+    "lv": null,
+    "lt": null,
+    "ua": "Підкатегорії з слайдером",
+    "fr": null,
+    "de": null,
+    "it": null,
+    "cn": null,
+    "jp": null,
+    "pl": null,
+    "az": null,
+    "he": null,
+    "bg": null,
+    "el": null,
+    "cz": null,
+    "pt": null,
+    "fi": null,
+    "es": "Subcategorías con slider"
+  },
+  "widget_category_handle": "collection-subcollections",
+  "libraries": [
+    "commonjs_v2",
+    "vanilla-lazyload",
+    "jquery",
+    "splide",
+    "my-layout"
+  ]
+}

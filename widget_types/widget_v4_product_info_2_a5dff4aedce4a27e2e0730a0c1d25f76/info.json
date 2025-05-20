@@ -1,0 +1,61 @@
+{
+  "type": "SimpleWidgetType",
+  "handle": "widget_v4_product_info_2_a5dff4aedce4a27e2e0730a0c1d25f76",
+  "page_kinds": [
+    "product"
+  ],
+  "widget_list_kinds": [
+    "content"
+  ],
+  "generation": 4,
+  "name": {
+    "ru": "Информация о товаре",
+    "en": null,
+    "ee": null,
+    "lv": null,
+    "lt": null,
+    "ua": null,
+    "fr": null,
+    "de": null,
+    "it": null,
+    "cn": null,
+    "jp": null,
+    "pl": null,
+    "az": null,
+    "he": null,
+    "bg": null,
+    "el": null,
+    "cz": null,
+    "pt": null,
+    "fi": null,
+    "es": "Información del producto - 2"
+  },
+  "description": {
+    "ru": "отзывы, описание и характеристики товара в виде табов",
+    "en": null,
+    "ee": null,
+    "lv": null,
+    "lt": null,
+    "ua": null,
+    "fr": null,
+    "de": null,
+    "it": null,
+    "cn": null,
+    "jp": null,
+    "pl": null,
+    "az": null,
+    "he": null,
+    "bg": null,
+    "el": null,
+    "cz": null,
+    "pt": null,
+    "fi": null,
+    "es": "reseñas, descripciones y características del producto en forma de pestañas"
+  },
+  "widget_category_handle": "product-info",
+  "libraries": [
+    "commonjs_v2",
+    "jquery",
+    "my-layout"
+  ]
+}

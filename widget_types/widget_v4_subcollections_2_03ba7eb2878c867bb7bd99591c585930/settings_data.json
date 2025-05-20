@@ -1,0 +1,15 @@
+{
+  "layout-wide-bg": false,
+  "layout-wide-content": false,
+  "layout-pt": 2,
+  "layout-pb": 2,
+  "hide-mobile": false,
+  "hide-desktop": false,
+  "slide-width": 220,
+  "slide-gap": 30,
+  "subcollection-border-radius": 0,
+  "img-ratio": 1,
+  "img-fit": "contain",
+  "card-font-size": 20,
+  "text-alignment": "left"
+}

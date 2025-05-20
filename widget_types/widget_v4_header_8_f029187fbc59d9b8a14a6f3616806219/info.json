@@ -1,0 +1,63 @@
+{
+  "type": "SimpleWidgetType",
+  "handle": "widget_v4_header_8_f029187fbc59d9b8a14a6f3616806219",
+  "page_kinds": [
+    "all"
+  ],
+  "widget_list_kinds": [
+    "header"
+  ],
+  "generation": 4,
+  "name": {
+    "ru": "Шапка с выезжающим сайдбаром",
+    "en": "Header with sliding sidebar",
+    "ee": null,
+    "lv": null,
+    "lt": null,
+    "ua": "Шапка з сайдбаром, що виїжджає",
+    "fr": null,
+    "de": null,
+    "it": null,
+    "cn": null,
+    "jp": null,
+    "pl": null,
+    "az": null,
+    "he": null,
+    "bg": null,
+    "el": null,
+    "cz": null,
+    "pt": null,
+    "fi": null,
+    "es": "Cabecera con barra lateral deslizante"
+  },
+  "description": {
+    "ru": "Шапка с выезжающим сайдбаром",
+    "en": "Header with sliding sidebar",
+    "ee": null,
+    "lv": null,
+    "lt": null,
+    "ua": "Шапка з сайдбаром, що виїжджає",
+    "fr": null,
+    "de": null,
+    "it": null,
+    "cn": null,
+    "jp": null,
+    "pl": null,
+    "az": null,
+    "he": null,
+    "bg": null,
+    "el": null,
+    "cz": null,
+    "pt": null,
+    "fi": null,
+    "es": "Cabecera con barra lateral deslizante"
+  },
+  "widget_category_handle": "headers",
+  "libraries": [
+    "commonjs_v2",
+    "cut-list",
+    "jquery",
+    "body-scroll-lock",
+    "my-layout"
+  ]
+}
